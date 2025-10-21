@@ -5,612 +5,270 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aplikasi Analisis Strategi Promosi</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        /* Sembunyikan semua langkah wizard secara default */
+        body {
+            font-family: 'Inter', sans-serif;
+        }
         .step { display: none; }
-        /* Tampilkan hanya langkah yang aktif */
         .step.active { display: block; }
-        /* Animasi transisi untuk progress bar */
         .progress-bar-fill { transition: width 0.4s ease-in-out; }
-        /* Animasi spinner sederhana */
         .spinner {
             border: 4px solid rgba(0, 0, 0, 0.1);
             width: 24px;
             height: 24px;
             border-radius: 50%;
-            border-left-color: #09f;
+            border-left-color: #4f46e5;
             animation: spin 1s ease infinite;
         }
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
+        .fade-in {
+            animation: fadeInAnimation 0.5s ease-in-out forwards;
+        }
+        @keyframes fadeInAnimation {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
     </style>
 </head>
-<body class="bg-gray-100 text-gray-800 font-sans antialiased">
+<body class="bg-slate-50 text-slate-900 antialiased">
 
     <div class="container mx-auto p-4 md:p-8 max-w-6xl">
-        <header class="text-center mb-8">
-            <h1 class="text-3xl md:text-4xl font-bold text-slate-800">Analisis Strategi Promosi Cerdas</h1>
-            <p class="text-slate-600 mt-2">Dibuat oleh AI.NALISIS</p>
+        <header class="text-center mb-10">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-sky-500 pb-2">
+                Analisis Strategi Promosi Cerdas
+            </h1>
+            <p class="text-slate-500 mt-2 text-lg">Didukung oleh <span class="font-semibold bg-gradient-to-r from-slate-800 to-slate-600 bg-clip-text text-transparent">AI.NALISIS</span></p>
         </header>
 
-        <!-- Indikator Progress Wizard -->
-        <div class="mb-8">
-            <div class="flex justify-between mb-2">
-                <span id="step-indicator" class="text-sm font-medium text-slate-700">Langkah 1 dari 4</span>
-                <span id="step-title" class="text-sm font-medium text-slate-700">Identifikasi Faktor SWOT</span>
+        <div class="mb-8 px-2">
+            <div class="flex justify-between items-center mb-2">
+                <span id="step-indicator" class="text-sm font-semibold text-indigo-600">Langkah 1 dari 4</span>
+                <span id="step-title" class="text-sm font-medium text-slate-600">Identifikasi Faktor SWOT</span>
             </div>
-            <div class="w-full bg-gray-200 rounded-full h-2.5 shadow-inner">
-                <div id="progress-bar" class="bg-blue-600 h-2.5 rounded-full progress-bar-fill" style="width: 25%"></div>
+            <div class="w-full bg-slate-200 rounded-full h-2.5 shadow-inner">
+                <div id="progress-bar" class="bg-gradient-to-r from-indigo-500 to-sky-500 h-2.5 rounded-full progress-bar-fill" style="width: 25%"></div>
             </div>
         </div>
 
-        <main class="bg-white p-6 md:p-8 rounded-xl shadow-lg">
+        <main class="bg-white/80 backdrop-blur-lg p-6 md:p-8 rounded-2xl shadow-lg border border-slate-200/80">
 
-            <!-- ======================= LANGKAH 1: Input Faktor SWOT ======================= -->
             <div id="step1" class="step active">
-                <h2 class="text-2xl font-semibold mb-4 text-slate-700">Langkah 1: Identifikasi Faktor SWOT</h2>
-                 <p class="mb-6 text-gray-600">Masukkan faktor SWOT secara manual, atau gunakan bantuan AI. Diperlukan minimal 2 faktor per kategori untuk melanjutkan.</p>
+                <div class="fade-in">
+                    <h2 class="text-2xl font-bold mb-2 text-slate-800">Langkah 1: Identifikasi Faktor SWOT</h2>
+                    <p class="mb-6 text-slate-500">Masukkan faktor SWOT secara manual, atau biarkan AI membantu Anda. Diperlukan minimal 2 faktor per kategori.</p>
 
-                <div class="p-4 border-2 border-dashed rounded-lg bg-gray-50 mb-6">
-                    <label for="industry-input" class="block mb-2 font-medium text-slate-700">Jenis Industri (Opsional, untuk Bantuan AI)</label>
-                    <div class="flex flex-col sm:flex-row gap-2">
-                        <input type="text" id="industry-input" class="flex-grow p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500" placeholder="Contoh: Restoran cepat saji, agensi digital, fashion retail">
-                        <button id="getAIFactorsBtn" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300 inline-flex items-center justify-center gap-2">
-                            ✨ Dapatkan Bantuan AI
-                        </button>
+                    <div class="p-4 border-2 border-dashed rounded-lg bg-slate-50/70 mb-8">
+                        <label for="industry-input" class="block mb-2 font-semibold text-slate-700">Jenis Industri Anda</label>
+                        <div class="flex flex-col sm:flex-row gap-3">
+                            <input type="text" id="industry-input" class="flex-grow p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 transition-all" placeholder="Contoh: Restoran cepat saji, agensi digital, fashion retail">
+                            <button id="getAIFactorsBtn" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-5 rounded-lg transition-all duration-300 inline-flex items-center justify-center gap-2 shadow-md hover:shadow-lg hover:-translate-y-0.5 transform">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18c.3-3 .5-5.2.5-7A4.5 4.5 0 0 0 11 6.5c0 1.5.2 3.3.5 5.5"/><path d="M12 12c-2 0-2.5-1-3-2.5s.5-4 2.5-4c2 0 2.5 1 3 2.5s-.5 4-2.5 4Z"/><path d="M12 12c-2 0-2.5-1-3-2.5s.5-4 2.5-4c2 0 2.5 1 3 2.5s-.5 4-2.5 4Z"/><path d="m18.5 2-1 1"/><path d="M21 7h-2"/><path d="m2.5 2 1 1"/><path d="M3 7H1"/><path d="M7 22v-2"/><path d="M17 22v-2"/></svg>
+                                Bantuan AI
+                            </button>
+                        </div>
+                         <div id="ai-factors-loading" class="mt-3 text-indigo-600 font-medium hidden items-center gap-2">
+                             <div class="spinner !w-5 !h-5"></div>
+                             <p>AI sedang mencari faktor SWOT...</p>
+                         </div>
                     </div>
-                     <div id="ai-factors-loading" class="mt-2 text-indigo-600 font-medium hidden items-center gap-2">
-                         <div class="spinner !w-5 !h-5"></div>
-                         <p>AI sedang mencari faktor SWOT...</p>
-                     </div>
-                </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                        <label for="strengths" class="block mb-2 font-medium text-green-700">Kekuatan (Strengths)</label>
-                        <textarea id="strengths" rows="5" class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 focus:border-green-500 transition" placeholder="Contoh:&#10;Brand image yang kuat&#10;Jaringan distribusi luas"></textarea>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="space-y-2">
+                            <label for="strengths" class="flex items-center gap-2 text-lg font-semibold text-green-700">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 11 3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+                                Kekuatan (Strengths)
+                            </label>
+                            <textarea id="strengths" rows="5" class="w-full p-3 border border-slate-300 rounded-md focus:ring-2 focus:ring-green-500 focus:border-green-500 transition" placeholder="Contoh:&#10;Brand image yang kuat&#10;Jaringan distribusi luas"></textarea>
+                        </div>
+                        <div class="space-y-2">
+                            <label for="weaknesses" class="flex items-center gap-2 text-lg font-semibold text-red-700">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                                Kelemahan (Weaknesses)
+                            </label>
+                            <textarea id="weaknesses" rows="5" class="w-full p-3 border border-slate-300 rounded-md focus:ring-2 focus:ring-red-500 focus:border-red-500 transition" placeholder="Contoh:&#10;Biaya produksi tinggi&#10;Ketergantungan pada satu pemasok"></textarea>
+                        </div>
+                        <div class="space-y-2">
+                            <label for="opportunities" class="flex items-center gap-2 text-lg font-semibold text-blue-700">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.72"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.72-1.72"/></svg>
+                                Peluang (Opportunities)
+                            </label>
+                            <textarea id="opportunities" rows="5" class="w-full p-3 border border-slate-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition" placeholder="Contoh:&#10;Pertumbuhan pasar e-commerce&#10;Tren gaya hidup sehat"></textarea>
+                        </div>
+                        <div class="space-y-2">
+                            <label for="threats" class="flex items-center gap-2 text-lg font-semibold text-yellow-600">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.46 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
+                                Ancaman (Threats)
+                            </label>
+                            <textarea id="threats" rows="5" class="w-full p-3 border border-slate-300 rounded-md focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500 transition" placeholder="Contoh:&#10;Munculnya pesaing baru&#10;Perubahan regulasi pemerintah"></textarea>
+                        </div>
                     </div>
-                    <div>
-                        <label for="weaknesses" class="block mb-2 font-medium text-red-700">Kelemahan (Weaknesses)</label>
-                        <textarea id="weaknesses" rows="5" class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-red-500 focus:border-red-500 transition" placeholder="Contoh:&#10;Biaya produksi tinggi&#10;Ketergantungan pada satu pemasok"></textarea>
+                    <div class="mt-10 text-right">
+                        <button id="toStep2" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-0.5 transform">Lanjutkan</button>
                     </div>
-                    <div>
-                        <label for="opportunities" class="block mb-2 font-medium text-blue-700">Peluang (Opportunities)</label>
-                        <textarea id="opportunities" rows="5" class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition" placeholder="Contoh:&#10;Pertumbuhan pasar e-commerce&#10;Tren gaya hidup sehat"></textarea>
-                    </div>
-                    <div>
-                        <label for="threats" class="block mb-2 font-medium text-yellow-700">Ancaman (Threats)</label>
-                        <textarea id="threats" rows="5" class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500 transition" placeholder="Contoh:&#10;Munculnya pesaing baru&#10;Perubahan regulasi pemerintah"></textarea>
-                    </div>
-                </div>
-                <div class="mt-8 text-right">
-                    <button id="toStep2" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg transition duration-300 shadow-md hover:shadow-lg">Lanjutkan ke Pembobotan</button>
                 </div>
             </div>
 
-            <!-- ======================= LANGKAH 2: Pembobotan Sub-Kriteria ======================= -->
             <div id="step2" class="step">
-                <h2 class="text-2xl font-semibold mb-4 text-slate-700">Langkah 2: Pembobotan Sub-Kriteria</h2>
-                <p class="mb-6 text-gray-600">Proses pembobotan sub-kriteria akan dilakukan menggunakan perbandingan berpasangan sesuai metodologi Fuzzy ANP untuk menentukan prioritas setiap faktor.</p>
-                
-                <div class="text-center p-8 border-2 border-dashed rounded-lg bg-gray-50">
-                    <h3 class="text-xl font-semibold text-slate-700">Analisis Pembobotan</h3>
-                    <p id="instruction-step2" class="text-gray-600 my-4 max-w-2xl mx-auto">Klik tombol di bawah untuk memulai. Hubungan antar faktor akan dianalisis untuk menghitung bobot prioritasnya.</p>
-                    <button id="startAIAnalysisBtn" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300 shadow-md hover:shadow-lg inline-flex items-center gap-2">
-                        ✨ Mulai Analisis Pembobotan
-                    </button>
-                    <div id="ai-loading-message" class="mt-4 text-blue-600 font-medium hidden items-center justify-center gap-3">
-                        <div class="spinner"></div>
-                        <p>AI sedang melakukan perbandingan berpasangan...</p>
+                 <div class="fade-in">
+                    <h2 class="text-2xl font-bold mb-2 text-slate-800">Langkah 2: Pembobotan Sub-Kriteria</h2>
+                    <p class="mb-6 text-slate-500">AI akan menganalisis hubungan antar faktor untuk menghitung bobot prioritasnya secara otomatis.</p>
+                    
+                    <div class="text-center p-8 border-2 border-dashed rounded-lg bg-slate-50/70">
+                        <h3 class="text-xl font-semibold text-slate-700">Analisis Pembobotan Cerdas</h3>
+                        <p id="instruction-step2" class="text-slate-500 my-4 max-w-2xl mx-auto">Klik tombol di bawah untuk memulai. Proses ini mungkin memakan waktu beberapa saat.</p>
+                        <button id="startAIAnalysisBtn" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300 shadow-md hover:shadow-lg inline-flex items-center gap-2 hover:-translate-y-0.5 transform">
+                            ✨ Mulai Analisis Pembobotan
+                        </button>
+                        <div id="ai-loading-message" class="mt-4 text-indigo-600 font-medium hidden items-center justify-center gap-3">
+                            <div class="spinner"></div>
+                            <p>AI sedang melakukan perbandingan berpasangan...</p>
+                        </div>
+                        <div id="ai-analysis-complete-message" class="mt-4 text-green-700 font-semibold hidden items-center justify-center gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                            <p>Proses pembobotan selesai! Lanjutkan ke langkah berikutnya.</p>
+                        </div>
                     </div>
-                    <div id="ai-analysis-complete-message" class="mt-4 text-green-700 font-semibold hidden items-center justify-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                        <p>Proses pembobotan selesai! Silakan lanjutkan ke langkah berikutnya.</p>
+
+                    <div class="mt-8 flex justify-between items-center">
+                        <button id="backToStep1" class="bg-slate-500 hover:bg-slate-600 text-white font-bold py-2 px-6 rounded-lg transition duration-300">Kembali</button>
+                        <button id="toStep3" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg transition duration-300 disabled:bg-slate-400 disabled:cursor-not-allowed" disabled>Lanjutkan ke Strategi</button>
                     </div>
-                </div>
 
-                <div class="mt-8 flex justify-between items-center">
-                    <button id="backToStep1" class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-6 rounded-lg transition duration-300">Kembali</button>
-                    <button id="toStep3" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg transition duration-300 disabled:bg-gray-400 disabled:cursor-not-allowed" disabled>Lanjutkan ke Strategi</button>
-                </div>
-
-                <div id="weights-results-container" class="mt-8 p-4 bg-gray-50 rounded-lg hidden">
-                    <h3 class="text-lg font-semibold mb-3">Hasil Bobot Global Sub-Kriteria</h3>
-                    <div class="overflow-x-auto">
-                        <table class="min-w-full divide-y divide-gray-200">
-                            <thead class="bg-gray-200">
-                                <tr>
-                                    <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Kategori</th>
-                                    <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Sub-Kriteria</th>
-                                    <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Bobot Global</th>
-                                </tr>
-                            </thead>
-                            <tbody id="weights-table-body" class="bg-white divide-y divide-gray-200">
-                            </tbody>
-                        </table>
+                    <div id="weights-results-container" class="mt-10 p-4 bg-slate-50/70 rounded-lg hidden fade-in">
+                        <h3 class="text-lg font-semibold mb-3">Hasil Bobot Global Sub-Kriteria</h3>
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full divide-y divide-slate-200">
+                                <thead class="bg-slate-100">
+                                    <tr>
+                                        <th class="px-4 py-2 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Kategori</th>
+                                        <th class="px-4 py-2 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Sub-Kriteria</th>
+                                        <th class="px-4 py-2 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Bobot Global</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="weights-table-body" class="bg-white divide-y divide-slate-200">
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- ======================= LANGKAH 3: Identifikasi & Evaluasi Strategi ======================= -->
             <div id="step3" class="step">
-                <h2 class="text-2xl font-semibold mb-4 text-slate-700">Langkah 3: Identifikasi & Evaluasi Strategi</h2>
-                <p class="mb-6 text-gray-600">Pada tahap ini, kombinasi strategi (SO, ST, WO, WT) akan dirumuskan dan dievaluasi hubungannya terhadap semua faktor SWOT.</p>
+                <div class="fade-in">
+                    <h2 class="text-2xl font-bold mb-2 text-slate-800">Langkah 3: Identifikasi & Evaluasi Strategi</h2>
+                    <p class="mb-6 text-slate-500">AI akan merumuskan kombinasi strategi (SO, ST, WO, WT) dan mengevaluasi hubungannya terhadap semua faktor SWOT.</p>
 
-                <div class="text-center p-8 border-2 border-dashed rounded-lg bg-gray-50">
-                    <h3 class="text-xl font-semibold text-slate-700">Analisis Strategi & Evaluasi</h3>
-                    <p id="instruction-step3" class="text-gray-600 my-4 max-w-2xl mx-auto">Klik tombol di bawah untuk memulai proses. Strategi akan dibuat dan dinilai hubungannya dengan setiap sub-kriteria.</p>
-                    <button id="startAIStrategyBtn" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300 shadow-md hover:shadow-lg inline-flex items-center gap-2">
-                        ✨ Mulai Analisis Strategi
-                    </button>
-                    <div id="ai-strategy-loading-message" class="mt-4 text-blue-600 font-medium hidden items-center justify-center gap-3">
-                        <div class="spinner"></div>
-                        <p>AI sedang merumuskan dan mengevaluasi strategi...</p>
+                    <div class="text-center p-8 border-2 border-dashed rounded-lg bg-slate-50/70">
+                        <h3 class="text-xl font-semibold text-slate-700">Analisis Strategi & Evaluasi</h3>
+                        <p id="instruction-step3" class="text-slate-500 my-4 max-w-2xl mx-auto">Klik tombol di bawah untuk memulai. Strategi akan dibuat dan dinilai hubungannya dengan setiap sub-kriteria.</p>
+                        <button id="startAIStrategyBtn" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300 shadow-md hover:shadow-lg inline-flex items-center gap-2 hover:-translate-y-0.5 transform">
+                            ✨ Mulai Analisis Strategi
+                        </button>
+                        <div id="ai-strategy-loading-message" class="mt-4 text-indigo-600 font-medium hidden items-center justify-center gap-3">
+                            <div class="spinner"></div>
+                            <p>AI sedang merumuskan dan mengevaluasi strategi...</p>
+                        </div>
+                         <div id="ai-strategy-complete-message" class="mt-4 text-green-700 font-semibold hidden items-center justify-center gap-2">
+                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                             <p>Proses perumusan strategi selesai! Silakan lihat hasil akhirnya.</p>
+                         </div>
                     </div>
-                     <div id="ai-strategy-complete-message" class="mt-4 text-green-700 font-semibold hidden items-center justify-center gap-2">
-                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                         <p>Proses perumusan strategi selesai! Silakan lihat hasil akhirnya.</p>
-                     </div>
-                </div>
 
-                <div class="mt-8 flex justify-between items-center">
-                    <button id="backToStep2" class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-6 rounded-lg transition duration-300">Kembali</button>
-                    <button id="toStep4" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg transition duration-300 disabled:bg-gray-400 disabled:cursor-not-allowed" disabled>Lihat Hasil Akhir</button>
-                </div>
+                    <div class="mt-8 flex justify-between items-center">
+                        <button id="backToStep2" class="bg-slate-500 hover:bg-slate-600 text-white font-bold py-2 px-6 rounded-lg transition duration-300">Kembali</button>
+                        <button id="toStep4" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg transition duration-300 disabled:bg-slate-400 disabled:cursor-not-allowed" disabled>Lihat Hasil Akhir</button>
+                    </div>
 
-                <div id="strategy-results-container" class="mt-8 overflow-x-auto hidden">
-                    <!-- Tabel hasil evaluasi AI akan muncul di sini -->
+                    <div id="strategy-results-container" class="mt-10 overflow-x-auto hidden fade-in">
+                    </div>
                 </div>
             </div>
 
-
-            <!-- ======================= LANGKAH 4: Hasil Akhir ======================= -->
             <div id="step4" class="step">
-                <h2 class="text-2xl font-semibold mb-4 text-slate-700">Langkah 4: Hasil Akhir - Prioritas Strategi</h2>
-                <p class="mb-6 text-gray-600">Berikut adalah peringkat akhir dari alternatif strategi promosi. Strategi di urutan teratas adalah prioritas utama yang direkomendasikan, beserta penjelasannya.</p>
+                <div class="fade-in">
+                    <h2 class="text-2xl font-bold mb-2 text-slate-800">Langkah 4: Hasil Akhir - Prioritas Strategi</h2>
+                    <p class="mb-6 text-slate-500">Berikut adalah peringkat akhir dari strategi promosi. Strategi teratas adalah prioritas utama yang kami rekomendasikan.</p>
 
-                <div id="final-results-container" class="overflow-x-auto border rounded-lg">
-                     <table class="min-w-full divide-y divide-gray-200">
-                         <thead class="bg-gray-200">
-                             <tr>
-                                 <th class="px-6 py-3 text-center text-xs font-bold text-gray-700 uppercase tracking-wider">Peringkat</th>
-                                 <th class="px-6 py-3 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">Alternatif Strategi</th>
-                                 <th class="px-6 py-3 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">Keterangan / Langkah Terbaik</th>
-                             </tr>
-                         </thead>
-                         <tbody id="final-results-table-body" class="bg-white divide-y divide-gray-200">
-                             <!-- Hasil akhir akan ditampilkan di sini -->
-                         </tbody>
-                     </table>
-                </div>
+                    <div id="final-results-container" class="overflow-x-auto border rounded-lg bg-white shadow-sm">
+                         <table class="min-w-full divide-y divide-slate-200">
+                             <thead class="bg-slate-50">
+                                 <tr>
+                                     <th class="px-6 py-3 text-center text-xs font-bold text-slate-600 uppercase tracking-wider">Peringkat</th>
+                                     <th class="px-6 py-3 text-left text-xs font-bold text-slate-600 uppercase tracking-wider">Alternatif Strategi</th>
+                                     <th class="px-6 py-3 text-left text-xs font-bold text-slate-600 uppercase tracking-wider">Rekomendasi Aksi</th>
+                                 </tr>
+                             </thead>
+                             <tbody id="final-results-table-body" class="bg-white divide-y divide-slate-200">
+                             </tbody>
+                         </table>
+                    </div>
 
-                <div class="mt-8 text-center">
-                    <button id="startOver" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-8 rounded-lg transition duration-300 text-lg shadow-md hover:shadow-lg">Mulai Analisis Baru</button>
+                    <div class="mt-10 text-center">
+                        <button id="startOver" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-8 rounded-lg transition duration-300 text-lg shadow-lg hover:shadow-xl hover:-translate-y-0.5 transform">Mulai Analisis Baru</button>
+                    </div>
                 </div>
             </div>
         </main>
 
-        <footer class="text-center mt-8 text-sm text-gray-500">
+        <footer class="text-center mt-10 text-sm text-slate-500">
             <p>&copy; 2025 Aplikasi Analisis Strategi Cerdas.</p>
         </footer>
     </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', () => {
-
-    // ======================= STATE MANAGEMENT & CONSTANTS =======================
-    const appState = {
-        currentStep: 1,
-        factors: { s: [], w: [], o: [], t: [] },
-        weights: { s: {}, w: {}, o: {}, t: {} },
-        criteriaWeights: { s: 0, w: 0, o: 0, t: 0 },
-        strategies: [],
-        strategyRatings: {},
-        finalResults: [],
-    };
-
-    const FUZZY_SCALE = {
-        "Sama besar pengaruhnya": { tfn: [1, 1, 1], reciprocal: [1, 1, 1] },
-        "Sedikit lebih besar pengaruhnya":{ tfn: [1/2, 1, 3/2], reciprocal: [2/3, 1, 2] },
-        "Lebih besar pengaruhnya": { tfn: [1, 3/2, 2], reciprocal: [1/2, 2/3, 1] },
-        "Sangat berpengaruh": { tfn: [3/2, 2, 5/2], reciprocal: [2/5, 1/2, 2/3] },
-        "Sangat lebih besar pengaruhnya": { tfn: [2, 5/2, 3], reciprocal: [1/3, 2/5, 1/2] },
-        "Mutlak lebih besar pengaruhnya": { tfn: [5/2, 3, 7/2], reciprocal: [2/7, 1/3, 2/5] }
-    };
-    const LINGUISTIC_OPTIONS = Object.keys(FUZZY_SCALE);
-
-    const stepElements = { 1: document.getElementById('step1'), 2: document.getElementById('step2'), 3: document.getElementById('step3'), 4: document.getElementById('step4'), };
-    const stepTitles = { 1: "Identifikasi Faktor SWOT", 2: "Pembobotan Sub-Kriteria", 3: "Identifikasi & Evaluasi Strategi", 4: "Hasil Akhir Prioritas Strategi", };
-
-    const progressBar = document.getElementById('progress-bar');
-    const stepIndicator = document.getElementById('step-indicator');
-    const stepTitle = document.getElementById('step-title');
-
-    // ======================= SECURE API INTEGRATION =======================
-    // PERUBAHAN: Ganti URL dengan endpoint API Vercel yang relatif
-    const backendApiUrl = '/api/proxy'; 
-
-    async function callBackendAPI(action, data) {
-        try {
-            const payload = {
-                action: action,
-                data: data
-            };
-            const response = await fetch(backendApiUrl, { 
-                method: 'POST', 
-                headers: { 'Content-Type': 'application/json' }, 
-                body: JSON.stringify(payload) 
-            });
-
-            if (!response.ok) {
-                const errorBody = await response.text();
-                console.error("Backend API Error Response:", errorBody);
-                throw new Error(`Permintaan ke backend gagal dengan status ${response.status}`);
-            }
-
-            const result = await response.json();
-            
-            if (result.error) {
-                 console.error("Backend API Error:", result.error);
-                 throw new Error(`Backend mengembalikan error: ${result.error}`);
-            }
-
-            return result.data;
-
-        } catch (error) {
-            console.error("Error calling or parsing backend API response:", error);
-            let userMessage = `Terjadi kesalahan saat berkomunikasi dengan server: ${error.message}.`;
-            alert(userMessage + " Mohon coba lagi.");
-            return null;
-        }
-    }
-
-    // ======================= CORE LOGIC: FUZZY ANP CALCULATION (Tidak ada perubahan) =======================
-    const fuzzyMath = {
-        add: (tfn1, tfn2) => [tfn1[0] + tfn2[0], tfn1[1] + tfn2[1], tfn1[2] + tfn2[2]],
-        multiply: (tfn1, tfn2) => [tfn1[0] * tfn2[0], tfn1[1] * tfn2[1], tfn1[2] * tfn2[2]],
-        inverse: (tfn) => [1 / tfn[2], 1 / tfn[1], 1 / tfn[0]],
-    };
-
-    function calculateFuzzyWeights(fuzzyMatrix) {
-        if (fuzzyMatrix.length === 0) return [];
-        if (fuzzyMatrix.length === 1) return [1];
-        const rowSums = fuzzyMatrix.map(row => row.reduce((acc, tfn) => fuzzyMath.add(acc, tfn), [0, 0, 0]));
-        const totalSum = rowSums.reduce((acc, tfn) => fuzzyMath.add(acc, tfn), [0, 0, 0]);
-        if (totalSum[0] === 0) return new Array(fuzzyMatrix.length).fill(1 / fuzzyMatrix.length);
-        const totalSumInverse = fuzzyMath.inverse(totalSum);
-        const syntheticExtents = rowSums.map(sum => fuzzyMath.multiply(sum, totalSumInverse));
-        const vValues = [];
-        for (let i = 0; i < syntheticExtents.length; i++) {
-            const rowV = [];
-            for (let j = 0; j < syntheticExtents.length; j++) {
-                if (i === j) continue;
-                const mi = syntheticExtents[i];
-                const mj = syntheticExtents[j];
-                if (mi[1] >= mj[1]) rowV.push(1);
-                else if (mj[0] >= mi[2]) rowV.push(0);
-                else rowV.push((mj[0] - mi[2]) / ((mi[1] - mi[2]) - (mj[1] - mj[0])));
-            }
-            vValues.push(rowV);
-        }
-        const weightVector = vValues.map(row => Math.min(...row));
-        const sumOfWeights = weightVector.reduce((a, b) => a + b, 0);
-        if (sumOfWeights === 0) return new Array(fuzzyMatrix.length).fill(1 / fuzzyMatrix.length);
-        return weightVector.map(w => w / sumOfWeights);
-    }
-    
-    // ======================= UI & NAVIGATION (Tidak ada perubahan) =======================
-    function navigateTo(stepNumber) {
-        appState.currentStep = stepNumber;
-        Object.values(stepElements).forEach(el => el.classList.remove('active'));
-        stepElements[stepNumber].classList.add('active');
-        const progress = (stepNumber / 4) * 100;
-        progressBar.style.width = `${progress}%`;
-        stepIndicator.textContent = `Langkah ${stepNumber} dari 4`;
-        stepTitle.textContent = stepTitles[stepNumber];
-        window.scrollTo(0, 0);
-    }
-
-    // ======================= LANGKAH 1: FAKTOR SWOT (Tidak ada perubahan) =======================
-    async function handleAIFactorGeneration() {
-        const industry = document.getElementById('industry-input').value.trim();
-        const loadingEl = document.getElementById('ai-factors-loading');
-        const btn = document.getElementById('getAIFactorsBtn');
-        loadingEl.classList.remove('hidden'); loadingEl.classList.add('inline-flex'); btn.disabled = true;
-        
-        const result = await callBackendAPI('generateFactors', { industry });
-        
-        if (result) {
-            document.getElementById('strengths').value = result.strengths.join('\n');
-            document.getElementById('weaknesses').value = result.weaknesses.join('\n');
-            document.getElementById('opportunities').value = result.opportunities.join('\n');
-            document.getElementById('threats').value = result.threats.join('\n');
-            alert('Faktor SWOT berhasil dibuat oleh AI!');
-        }
-        loadingEl.classList.add('hidden'); loadingEl.classList.remove('inline-flex'); btn.disabled = false;
-    }
-
-    function parseSWOTInputs() {
-        const s = document.getElementById('strengths').value.trim().split('\n').filter(Boolean);
-        const w = document.getElementById('weaknesses').value.trim().split('\n').filter(Boolean);
-        const o = document.getElementById('opportunities').value.trim().split('\n').filter(Boolean);
-        const t = document.getElementById('threats').value.trim().split('\n').filter(Boolean);
-        if (s.length < 2 || w.length < 2 || o.length < 2 || t.length < 2) {
-            alert("Harap masukkan minimal 2 faktor untuk setiap kategori SWOT.");
-            return false;
-        }
-        appState.factors = { s, w, o, t };
-        return true;
-    }
-
-    // ======================= LANGKAH 2: PEMBOBOTAN OTOMATIS (AI) (Tidak ada perubahan) =======================
-    async function runAIWeightingAnalysis() {
-        const criteriaMatrix = [
-            [FUZZY_SCALE["Sama besar pengaruhnya"].tfn, FUZZY_SCALE["Sangat berpengaruh"].tfn, FUZZY_SCALE["Lebih besar pengaruhnya"].tfn, FUZZY_SCALE["Lebih besar pengaruhnya"].tfn],
-            [FUZZY_SCALE["Sangat berpengaruh"].reciprocal, FUZZY_SCALE["Sama besar pengaruhnya"].tfn, FUZZY_SCALE["Sedikit lebih besar pengaruhnya"].tfn, FUZZY_SCALE["Sedikit lebih besar pengaruhnya"].tfn],
-            [FUZZY_SCALE["Lebih besar pengaruhnya"].reciprocal, FUZZY_SCALE["Sedikit lebih besar pengaruhnya"].reciprocal, FUZZY_SCALE["Sama besar pengaruhnya"].tfn, FUZZY_SCALE["Sangat berpengaruh"].tfn],
-            [FUZZY_SCALE["Lebih besar pengaruhnya"].reciprocal, FUZZY_SCALE["Sedikit lebih besar pengaruhnya"].reciprocal, FUZZY_SCALE["Sangat berpengaruh"].reciprocal, FUZZY_SCALE["Sama besar pengaruhnya"].tfn]
-        ];
-        const criteriaWeightsResult = calculateFuzzyWeights(criteriaMatrix);
-        appState.criteriaWeights = { s: criteriaWeightsResult[0], w: criteriaWeightsResult[1], o: criteriaWeightsResult[2], t: criteriaWeightsResult[3] };
-
-        for (const catKey of ['s', 'w', 'o', 't']) {
-            const factors = appState.factors[catKey];
-            const n = factors.length;
-            if (n < 2) continue;
-            
-            const aiComparisons = await callBackendAPI('getPairwise', { factors, linguisticOptions: LINGUISTIC_OPTIONS });
-            if (!aiComparisons) { throw new Error(`Gagal mendapatkan perbandingan AI untuk kategori ${catKey}`); }
-
-            const fuzzyMatrix = Array.from({ length: n }, () => Array.from({ length: n }, () => FUZZY_SCALE["Sama besar pengaruhnya"].tfn));
-            aiComparisons.comparisons.forEach(comp => {
-                const i = factors.findIndex(f => f.includes(comp.factor1) || comp.factor1.includes(f));
-                const j = factors.findIndex(f => f.includes(comp.factor2) || comp.factor2.includes(f));
-                if (i === -1 || j === -1 || i >= j) return;
-                const linguisticVal = LINGUISTIC_OPTIONS.includes(comp.linguistic_value) ? comp.linguistic_value : LINGUISTIC_OPTIONS[1];
-                const dominantIndex = factors.findIndex(f => f.includes(comp.dominant_factor) || comp.dominant_factor.includes(f));
-                if (dominantIndex === i) {
-                    fuzzyMatrix[i][j] = FUZZY_SCALE[linguisticVal].tfn;
-                    fuzzyMatrix[j][i] = FUZZY_SCALE[linguisticVal].reciprocal;
-                } else {
-                    fuzzyMatrix[i][j] = FUZZY_SCALE[linguisticVal].reciprocal;
-                    fuzzyMatrix[j][i] = FUZZY_SCALE[linguisticVal].tfn;
-                }
-            });
-            const localWeights = calculateFuzzyWeights(fuzzyMatrix);
-            appState.weights[catKey] = {};
-            factors.forEach((factor, index) => {
-                appState.weights[catKey][factor] = localWeights[index] * appState.criteriaWeights[catKey];
-            });
-        }
-        return true;
-    }
-
-    function displayWeightsResults() {
-        const tableBody = document.getElementById('weights-table-body');
-        tableBody.innerHTML = '';
-        const categoryMap = { s: 'Kekuatan', w: 'Kelemahan', o: 'Peluang', t: 'Ancaman' };
-        for (const catKey in appState.weights) {
-            for (const factor in appState.weights[catKey]) {
-                const row = document.createElement('tr');
-                row.innerHTML = `<td class="px-4 py-2 whitespace-nowrap">${categoryMap[catKey]}</td><td class="px-4 py-2">${factor}</td><td class="px-4 py-2 whitespace-nowrap font-medium">${appState.weights[catKey][factor].toFixed(4)}</td>`;
-                tableBody.appendChild(row);
-            }
-        }
-        document.getElementById('weights-results-container').classList.remove('hidden');
-    }
-    
-    // ======================= LANGKAH 3: STRATEGI OTOMATIS (AI) (Tidak ada perubahan) =======================
-    async function runAIStrategyAnalysis() {
-        const { s, w, o, t } = appState.factors;
-        
-        const strategyResult = await callBackendAPI('generateStrategies', { factors: appState.factors });
-        if (!strategyResult || !strategyResult.strategies) return null;
-        appState.strategies = strategyResult.strategies.map((strat, i) => ({ id: Date.now() + i, text: `${strat.type}: ${strat.description}` }));
-
-        const allFactors = [].concat(s, w, o, t);
-        const evaluationResult = await callBackendAPI('evaluateStrategies', { strategies: appState.strategies, factors: allFactors });
-        if (!evaluationResult || !evaluationResult.evaluations) return null;
-
-        appState.strategyRatings = {};
-        evaluationResult.evaluations.forEach(evaluation => {
-            const matchedStrategy = appState.strategies.find(s => evaluation.strategy.includes(s.text) || s.text.includes(evaluation.strategy));
-            if (matchedStrategy) {
-                appState.strategyRatings[matchedStrategy.id] = {};
-                evaluation.ratings.forEach(r => {
-                    const matchedFactor = allFactors.find(f => r.factor.includes(f) || f.includes(r.factor));
-                    if(matchedFactor) appState.strategyRatings[matchedStrategy.id][matchedFactor] = r.rating;
-                });
-            }
-        });
-        return true;
-    }
-
-    function displayAIStrategyResults() {
-        const container = document.getElementById('strategy-results-container');
-        if (appState.strategies.length === 0) { container.innerHTML = ''; container.classList.add('hidden'); return; }
-        const allFactors = [].concat(
-            appState.factors.s.map((f, i) => ({ category: 'S', text: f, index: i + 1 })), 
-            appState.factors.w.map((f, i) => ({ category: 'W', text: f, index: i + 1 })),
-            appState.factors.o.map((f, i) => ({ category: 'O', text: f, index: i + 1 })), 
-            appState.factors.t.map((f, i) => ({ category: 'T', text: f, index: i + 1 }))
-        );
-        let tableHTML = `<h3 class="text-lg font-semibold mb-3">Hasil Evaluasi Strategi</h3><div class="border rounded-lg"><table class="min-w-full text-sm"><thead class="bg-gray-100"><tr><th class="p-2 border text-left sticky left-0 bg-gray-100 z-10">Alternatif Strategi</th>${allFactors.map(f => `<th class="p-2 border text-center" title="${f.text}">${f.category}${f.index}</th>`).join('')}</tr></thead><tbody>`;
-        appState.strategies.forEach(strategy => {
-            const ratings = appState.strategyRatings[strategy.id] || {};
-            tableHTML += `<tr><td class="p-2 border font-medium sticky left-0 bg-white">${strategy.text}</td>${allFactors.map(f => `<td class="p-1 border text-center font-medium">${ratings[f.text] || '?'}</td>`).join('')}</tr>`;
-        });
-        tableHTML += `</tbody></table></div>`;
-        container.innerHTML = tableHTML;
-        container.classList.remove('hidden');
-    }
-    
-    // ======================= LANGKAH 4: HASIL AKHIR (Tidak ada perubahan) =======================
-    function calculateFinalScores() {
-        appState.finalResults = [];
-        appState.strategies.forEach(strategy => {
-            let totalScore = 0;
-            const ratings = appState.strategyRatings[strategy.id] || {};
-            for (const catKey in appState.weights) {
-                for (const factor in appState.weights[catKey]) {
-                    const weight = appState.weights[catKey][factor];
-                    const rating = ratings[factor] || 3;
-                    totalScore += weight * rating;
-                }
-            }
-            appState.finalResults.push({ text: strategy.text, score: totalScore });
-        });
-        appState.finalResults.sort((a, b) => b.score - a.score);
-    }
-    
-    async function displayFinalResults() {
-        const tableBody = document.getElementById('final-results-table-body');
-        if (appState.finalResults.length === 0) { tableBody.innerHTML = '<tr><td colspan="3" class="text-center p-4">Tidak ada data strategi untuk ditampilkan.</td></tr>'; return; }
-        
-        const topStrategy = appState.finalResults[0];
-        const aiExplanationResult = await callBackendAPI('getExplanation', { topStrategy });
-        const bestStepExplanation = aiExplanationResult ? aiExplanationResult.explanation : "Analisis menunjukkan ini adalah strategi dengan dampak paling signifikan berdasarkan bobot faktor yang ada.";
-
-        tableBody.innerHTML = '';
-        appState.finalResults.forEach((result, index) => {
-            const rankClass = index === 0 ? 'text-green-600 bg-green-100' : 'text-gray-700';
-            const row = document.createElement('tr');
-            const explanation = (index === 0) ? `<p class="font-semibold text-green-800">${bestStepExplanation}</p>` : "-";
-
-            row.innerHTML = `
+    // Fungsionalitas JavaScript tidak diubah dan tetap sama seperti sebelumnya.
+    // Semua perubahan hanya bersifat visual pada HTML dan CSS.
+    document.addEventListener('DOMContentLoaded', () => {
+        const appState={currentStep:1,factors:{s:[],w:[],o:[],t:[]},weights:{s:{},w:{},o:{},t:{}},criteriaWeights:{s:0,w:0,o:0,t:0},strategies:[],strategyRatings:{},finalResults:[]};
+        const FUZZY_SCALE={"Sama besar pengaruhnya":{tfn:[1,1,1],reciprocal:[1,1,1]},"Sedikit lebih besar pengaruhnya":{tfn:[.5,1,1.5],reciprocal:[2/3,1,2]},"Lebih besar pengaruhnya":{tfn:[1,1.5,2],reciprocal:[.5,2/3,1]},"Sangat berpengaruh":{tfn:[1.5,2,2.5],reciprocal:[.4,.5,2/3]},"Sangat lebih besar pengaruhnya":{tfn:[2,2.5,3],reciprocal:[1/3,.4,.5]},"Mutlak lebih besar pengaruhnya":{tfn:[2.5,3,3.5],reciprocal:[2/7,1/3,.4]}};
+        const LINGUISTIC_OPTIONS=Object.keys(FUZZY_SCALE);
+        const stepElements={1:document.getElementById("step1"),2:document.getElementById("step2"),3:document.getElementById("step3"),4:document.getElementById("step4")};
+        const stepTitles={1:"Identifikasi Faktor SWOT",2:"Pembobotan Sub-Kriteria",3:"Identifikasi & Evaluasi Strategi",4:"Hasil Akhir Prioritas Strategi"};
+        const progressBar=document.getElementById("progress-bar");
+        const stepIndicator=document.getElementById("step-indicator");
+        const stepTitle=document.getElementById("step-title");
+        const backendApiUrl="/api/proxy";
+        async function callBackendAPI(action,data){try{const payload={action:action,data:data};const response=await fetch(backendApiUrl,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)});if(!response.ok){const errorBody=await response.text();console.error("Backend API Error Response:",errorBody);throw new Error(`Permintaan ke backend gagal dengan status ${response.status}`)}
+        const result=await response.json();if(result.error){console.error("Backend API Error:",result.error);throw new Error(`Backend mengembalikan error: ${result.error}`)}
+        return result.data}catch(error){console.error("Error calling or parsing backend API response:",error);let userMessage=`Terjadi kesalahan saat berkomunikasi dengan server: ${error.message}.`;alert(userMessage+" Mohon coba lagi.");return null}}
+        const fuzzyMath={add:(tfn1,tfn2)=>[tfn1[0]+tfn2[0],tfn1[1]+tfn2[1],tfn1[2]+tfn2[2]],multiply:(tfn1,tfn2)=>[tfn1[0]*tfn2[0],tfn1[1]*tfn2[1],tfn1[2]*tfn2[2]],inverse:tfn=>[1/tfn[2],1/tfn[1],1/tfn[0]]};
+        function calculateFuzzyWeights(fuzzyMatrix){if(fuzzyMatrix.length===0)return[];if(fuzzyMatrix.length===1)return[1];const rowSums=fuzzyMatrix.map(row=>row.reduce((acc,tfn)=>fuzzyMath.add(acc,tfn),[0,0,0]));const totalSum=rowSums.reduce((acc,tfn)=>fuzzyMath.add(acc,tfn),[0,0,0]);if(totalSum[0]===0)return new Array(fuzzyMatrix.length).fill(1/fuzzyMatrix.length);const totalSumInverse=fuzzyMath.inverse(totalSum);const syntheticExtents=rowSums.map(sum=>fuzzyMath.multiply(sum,totalSumInverse));const vValues=[];for(let i=0;i<syntheticExtents.length;i++){const rowV=[];for(let j=0;j<syntheticExtents.length;j++){if(i===j)continue;const mi=syntheticExtents[i];const mj=syntheticExtents[j];if(mi[1]>=mj[1])rowV.push(1);else if(mj[0]>=mi[2])rowV.push(0);else rowV.push((mj[0]-mi[2])/((mi[1]-mi[2])-(mj[1]-mj[0])))}
+        vValues.push(rowV)}
+        const weightVector=vValues.map(row=>Math.min(...row));const sumOfWeights=weightVector.reduce((a,b)=>a+b,0);if(sumOfWeights===0)return new Array(fuzzyMatrix.length).fill(1/fuzzyMatrix.length);return weightVector.map(w=>w/sumOfWeights)}
+        function navigateTo(stepNumber){appState.currentStep=stepNumber;Object.values(stepElements).forEach(el=>el.classList.remove("active"));stepElements[stepNumber].classList.add("active");const progress=stepNumber/4*100;progressBar.style.width=`${progress}%`;stepIndicator.textContent=`Langkah ${stepNumber} dari 4`;stepTitle.textContent=stepTitles[stepNumber];window.scrollTo(0,0)}
+        async function handleAIFactorGeneration(){const industry=document.getElementById("industry-input").value.trim();const loadingEl=document.getElementById("ai-factors-loading");const btn=document.getElementById("getAIFactorsBtn");loadingEl.classList.remove("hidden");loadingEl.classList.add("inline-flex");btn.disabled=true;const result=await callBackendAPI("generateFactors",{industry});if(result){document.getElementById("strengths").value=result.strengths.join("\n");document.getElementById("weaknesses").value=result.weaknesses.join("\n");document.getElementById("opportunities").value=result.opportunities.join("\n");document.getElementById("threats").value=result.threats.join("\n");alert("Faktor SWOT berhasil dibuat oleh AI!")}
+        loadingEl.classList.add("hidden");loadingEl.classList.remove("inline-flex");btn.disabled=false}
+        function parseSWOTInputs(){const s=document.getElementById("strengths").value.trim().split("\n").filter(Boolean);const w=document.getElementById("weaknesses").value.trim().split("\n").filter(Boolean);const o=document.getElementById("opportunities").value.trim().split("\n").filter(Boolean);const t=document.getElementById("threats").value.trim().split("\n").filter(Boolean);if(s.length<2||w.length<2||o.length<2||t.length<2){alert("Harap masukkan minimal 2 faktor untuk setiap kategori SWOT.");return false}
+        appState.factors={s,w,o,t};return true}
+        async function runAIWeightingAnalysis(){const criteriaMatrix=[[FUZZY_SCALE["Sama besar pengaruhnya"].tfn,FUZZY_SCALE["Sangat berpengaruh"].tfn,FUZZY_SCALE["Lebih besar pengaruhnya"].tfn,FUZZY_SCALE["Lebih besar pengaruhnya"].tfn],[FUZZY_SCALE["Sangat berpengaruh"].reciprocal,FUZZY_SCALE["Sama besar pengaruhnya"].tfn,FUZZY_SCALE["Sedikit lebih besar pengaruhnya"].tfn,FUZZY_SCALE["Sedikit lebih besar pengaruhnya"].tfn],[FUZZY_SCALE["Lebih besar pengaruhnya"].reciprocal,FUZZY_SCALE["Sedikit lebih besar pengaruhnya"].reciprocal,FUZZY_SCALE["Sama besar pengaruhnya"].tfn,FUZZY_SCALE["Sangat berpengaruh"].tfn],[FUZZY_SCALE["Lebih besar pengaruhnya"].reciprocal,FUZZY_SCALE["Sedikit lebih besar pengaruhnya"].reciprocal,FUZZY_SCALE["Sangat berpengaruh"].reciprocal,FUZZY_SCALE["Sama besar pengaruhnya"].tfn]];const criteriaWeightsResult=calculateFuzzyWeights(criteriaMatrix);appState.criteriaWeights={s:criteriaWeightsResult[0],w:criteriaWeightsResult[1],o:criteriaWeightsResult[2],t:criteriaWeightsResult[3]};for(const catKey of["s","w","o","t"]){const factors=appState.factors[catKey];const n=factors.length;if(n<2)continue;const aiComparisons=await callBackendAPI("getPairwise",{factors,linguisticOptions:LINGUISTIC_OPTIONS});if(!aiComparisons){throw new Error(`Gagal mendapatkan perbandingan AI untuk kategori ${catKey}`)}
+        const fuzzyMatrix=Array.from({length:n},()=>Array.from({length:n},()=>FUZZY_SCALE["Sama besar pengaruhnya"].tfn));aiComparisons.comparisons.forEach(comp=>{const i=factors.findIndex(f=>f.includes(comp.factor1)||comp.factor1.includes(f));const j=factors.findIndex(f=>f.includes(comp.factor2)||comp.factor2.includes(f));if(i===-1||j===-1||i>=j)return;const linguisticVal=LINGUISTIC_OPTIONS.includes(comp.linguistic_value)?comp.linguistic_value:LINGUISTIC_OPTIONS[1];const dominantIndex=factors.findIndex(f=>f.includes(comp.dominant_factor)||comp.dominant_factor.includes(f));if(dominantIndex===i){fuzzyMatrix[i][j]=FUZZY_SCALE[linguisticVal].tfn;fuzzyMatrix[j][i]=FUZZY_SCALE[linguisticVal].reciprocal}else{fuzzyMatrix[i][j]=FUZZY_SCALE[linguisticVal].reciprocal;fuzzyMatrix[j][i]=FUZZY_SCALE[linguisticVal].tfn}});const localWeights=calculateFuzzyWeights(fuzzyMatrix);appState.weights[catKey]={};factors.forEach((factor,index)=>{appState.weights[catKey][factor]=localWeights[index]*appState.criteriaWeights[catKey]})}
+        return true}
+        function displayWeightsResults(){const tableBody=document.getElementById("weights-table-body");tableBody.innerHTML="";const categoryMap={s:"Kekuatan",w:"Kelemahan",o:"Peluang",t:"Ancaman"};for(const catKey in appState.weights){for(const factor in appState.weights[catKey]){const row=document.createElement("tr");row.innerHTML=`<td class="px-4 py-2 whitespace-nowrap">${categoryMap[catKey]}</td><td class="px-4 py-2">${factor}</td><td class="px-4 py-2 whitespace-nowrap font-medium">${appState.weights[catKey][factor].toFixed(4)}</td>`;tableBody.appendChild(row)}}
+        document.getElementById("weights-results-container").classList.remove("hidden")}
+        async function runAIStrategyAnalysis(){const{s,w,o,t}=appState.factors;const strategyResult=await callBackendAPI("generateStrategies",{factors:appState.factors});if(!strategyResult||!strategyResult.strategies)return null;appState.strategies=strategyResult.strategies.map((strat,i)=>({id:Date.now()+i,text:`${strat.type}: ${strat.description}`}));const allFactors=[].concat(s,w,o,t);const evaluationResult=await callBackendAPI("evaluateStrategies",{strategies:appState.strategies,factors:allFactors});if(!evaluationResult||!evaluationResult.evaluations)return null;appState.strategyRatings={};evaluationResult.evaluations.forEach(evaluation=>{const matchedStrategy=appState.strategies.find(s=>evaluation.strategy.includes(s.text)||s.text.includes(evaluation.strategy));if(matchedStrategy){appState.strategyRatings[matchedStrategy.id]={};evaluation.ratings.forEach(r=>{const matchedFactor=allFactors.find(f=>r.factor.includes(f)||f.includes(r.factor));if(matchedFactor)appState.strategyRatings[matchedStrategy.id][matchedFactor]=r.rating})}});return true}
+        function displayAIStrategyResults(){const container=document.getElementById("strategy-results-container");if(appState.strategies.length===0){container.innerHTML="";container.classList.add("hidden");return}
+        const allFactors=[].concat(appState.factors.s.map((f,i)=>({category:"S",text:f,index:i+1})),appState.factors.w.map((f,i)=>({category:"W",text:f,index:i+1})),appState.factors.o.map((f,i)=>({category:"O",text:f,index:i+1})),appState.factors.t.map((f,i)=>({category:"T",text:f,index:i+1})));let tableHTML=`<h3 class="text-lg font-semibold mb-3">Hasil Evaluasi Strategi</h3><div class="border rounded-lg"><table class="min-w-full text-sm"><thead class="bg-slate-100"><tr><th class="p-2 border text-left sticky left-0 bg-slate-100 z-10">Alternatif Strategi</th>${allFactors.map(f=>`<th class="p-2 border text-center" title="${f.text}">${f.category}${f.index}</th>`).join("")}</tr></thead><tbody>`;appState.strategies.forEach(strategy=>{const ratings=appState.strategyRatings[strategy.id]||{};tableHTML+=`<tr><td class="p-2 border font-medium sticky left-0 bg-white">${strategy.text}</td>${allFactors.map(f=>`<td class="p-1 border text-center font-medium">${ratings[f.text]||"?"}</td>`).join("")}</tr>`});tableHTML+="</tbody></table></div>";container.innerHTML=tableHTML;container.classList.remove("hidden")}
+        function calculateFinalScores(){appState.finalResults=[];appState.strategies.forEach(strategy=>{let totalScore=0;const ratings=appState.strategyRatings[strategy.id]||{};for(const catKey in appState.weights){for(const factor in appState.weights[catKey]){const weight=appState.weights[catKey][factor];const rating=ratings[factor]||3;totalScore+=weight*rating}}
+        appState.finalResults.push({text:strategy.text,score:totalScore})});appState.finalResults.sort((a,b)=>b.score-a.score)}
+        async function displayFinalResults(){const tableBody=document.getElementById("final-results-table-body");if(appState.finalResults.length===0){tableBody.innerHTML='<tr><td colspan="3" class="text-center p-4">Tidak ada data strategi untuk ditampilkan.</td></tr>';return}
+        const topStrategy=appState.finalResults[0];const aiExplanationResult=await callBackendAPI("getExplanation",{topStrategy});const bestStepExplanation=aiExplanationResult?aiExplanationResult.explanation:"Analisis menunjukkan ini adalah strategi dengan dampak paling signifikan berdasarkan bobot faktor yang ada.";tableBody.innerHTML="";appState.finalResults.forEach((result,index)=>{const rankClass=index===0?"text-green-600 bg-green-100":"text-slate-700";const row=document.createElement("tr");const explanation=index===0?`<p class="font-semibold text-green-800">${bestStepExplanation}</p>`:"-";row.innerHTML=`
                 <td class="px-6 py-4 whitespace-nowrap text-center">
-                    <span class="text-lg font-bold p-2 rounded-full ${rankClass}">#${index + 1}</span>
+                    <span class="text-lg font-bold p-2 rounded-full ${rankClass}">#${index+1}</span>
                 </td>
                 <td class="px-6 py-4 font-medium">${result.text}</td>
-                <td class="px-6 py-4 text-sm text-gray-700">${explanation}</td>`;
-            tableBody.appendChild(row);
-        });
-    }
-
-    // ======================= EVENT BINDINGS & RESET (Tidak ada perubahan) =======================
-    function resetApplicationState() {
-        appState.currentStep = 1;
-        appState.factors = { s: [], w: [], o: [], t: [] };
-        appState.weights = { s: {}, w: {}, o: {}, t: {} };
-        appState.criteriaWeights = { s: 0, w: 0, o: 0, t: 0 };
-        appState.strategies = [];
-        appState.strategyRatings = {};
-        appState.finalResults = [];
-        document.getElementById('industry-input').value = '';
-        document.getElementById('strengths').value = '';
-        document.getElementById('weaknesses').value = '';
-        document.getElementById('opportunities').value = '';
-        document.getElementById('threats').value = '';
-        const toStep3Btn = document.getElementById('toStep3');
-        toStep3Btn.disabled = true;
-        toStep3Btn.classList.remove('animate-pulse');
-        document.getElementById('weights-results-container').classList.add('hidden');
-        document.getElementById('weights-table-body').innerHTML = '';
-        document.getElementById('startAIAnalysisBtn').style.display = 'inline-flex';
-        document.getElementById('instruction-step2').style.display = 'block';
-        document.getElementById('ai-loading-message').classList.add('hidden');
-        document.getElementById('ai-analysis-complete-message').classList.add('hidden');
-        const toStep4Btn = document.getElementById('toStep4');
-        toStep4Btn.disabled = true;
-        toStep4Btn.classList.remove('animate-pulse');
-        document.getElementById('strategy-results-container').classList.add('hidden');
-        document.getElementById('strategy-results-container').innerHTML = '';
-        document.getElementById('startAIStrategyBtn').style.display = 'inline-flex';
-        document.getElementById('instruction-step3').style.display = 'block';
-        document.getElementById('ai-strategy-loading-message').classList.add('hidden');
-        document.getElementById('ai-strategy-complete-message').classList.add('hidden');
-        document.getElementById('final-results-table-body').innerHTML = '';
-    }
-
-    function resetStepUI(stepNumber) {
-        if (stepNumber === 2) {
-            document.getElementById('ai-analysis-complete-message').classList.add('hidden');
-            document.getElementById('toStep3').classList.remove('animate-pulse');
-            document.getElementById('startAIAnalysisBtn').style.display = 'inline-flex';
-            document.getElementById('instruction-step2').style.display = 'block';
-        }
-        if (stepNumber === 3) {
-            document.getElementById('ai-strategy-complete-message').classList.add('hidden');
-            document.getElementById('toStep4').classList.remove('animate-pulse');
-            document.getElementById('startAIStrategyBtn').style.display = 'inline-flex';
-            document.getElementById('instruction-step3').style.display = 'block';
-        }
-    }
-
-    document.getElementById('getAIFactorsBtn').addEventListener('click', handleAIFactorGeneration);
-    document.getElementById('toStep2').addEventListener('click', () => { if (parseSWOTInputs()) { resetStepUI(3); navigateTo(2); } });
-    document.getElementById('backToStep1').addEventListener('click', () => { resetStepUI(2); navigateTo(1); });
-    document.getElementById('startAIAnalysisBtn').addEventListener('click', async () => {
-        const btn = document.getElementById('startAIAnalysisBtn');
-        const loadingMsg = document.getElementById('ai-loading-message');
-        const completeMsg = document.getElementById('ai-analysis-complete-message');
-        btn.style.display = 'none';
-        document.getElementById('instruction-step2').style.display = 'none';
-        loadingMsg.classList.remove('hidden'); 
-        loadingMsg.classList.add('inline-flex');
-        try {
-            const success = await runAIWeightingAnalysis();
-            if (success) {
-                displayWeightsResults();
-                const nextBtn = document.getElementById('toStep3');
-                nextBtn.disabled = false;
-                nextBtn.classList.add('animate-pulse');
-                completeMsg.classList.remove('hidden');
-            }
-        } catch (error) {
-            alert(`Terjadi kesalahan pada Langkah 2: ${error.message}`);
-            btn.style.display = 'inline-flex';
-            document.getElementById('instruction-step2').style.display = 'block';
-        } finally {
-            loadingMsg.classList.add('hidden'); 
-            loadingMsg.classList.remove('inline-flex');
-        }
-    });
-    document.getElementById('toStep3').addEventListener('click', () => { resetStepUI(2); navigateTo(3); });
-    document.getElementById('backToStep2').addEventListener('click', () => { resetStepUI(3); navigateTo(2); });
-    document.getElementById('startAIStrategyBtn').addEventListener('click', async () => {
-        const btn = document.getElementById('startAIStrategyBtn');
-        const loadingMsg = document.getElementById('ai-strategy-loading-message');
-        const completeMsg = document.getElementById('ai-strategy-complete-message');
-        btn.style.display = 'none';
-        document.getElementById('instruction-step3').style.display = 'none';
-        loadingMsg.classList.remove('hidden'); 
-        loadingMsg.classList.add('inline-flex');
-        const success = await runAIStrategyAnalysis();
-        if (success) {
-            displayAIStrategyResults();
-            const nextBtn = document.getElementById('toStep4');
-            nextBtn.disabled = false;
-            nextBtn.classList.add('animate-pulse');
-            completeMsg.classList.remove('hidden');
-        } else {
-             btn.style.display = 'inline-flex';
-             document.getElementById('instruction-step3').style.display = 'block';
-        }
-        loadingMsg.classList.add('hidden'); 
-        loadingMsg.classList.remove('inline-flex');
-    });
-    document.getElementById('toStep4').addEventListener('click', async () => {
-        if(appState.strategies.length === 0){ alert("Analisis AI belum dijalankan."); return; }
-        resetStepUI(3);
-        const finalTableBody = document.getElementById('final-results-table-body');
-        finalTableBody.innerHTML = '<tr><td colspan="3" class="text-center p-8"><div class="flex justify-center items-center gap-3"><div class="spinner"></div><span>AI sedang menyusun rekomendasi akhir...</span></div></td></tr>';
-        navigateTo(4);
-        calculateFinalScores();
-        await displayFinalResults();
-    });
-    document.getElementById('startOver').addEventListener('click', () => {
-        if (window.confirm("Apakah Anda yakin ingin memulai analisis baru? Semua data akan dihapus.")) {
-            resetApplicationState();
-            navigateTo(1);
-        }
-    });
-
-    // Inisialisasi aplikasi
-    navigateTo(1);
-});
+                <td class="px-6 py-4 text-sm text-slate-700">${explanation}</td>`;tableBody.appendChild(row)})}
+        function resetApplicationState(){appState.currentStep=1;appState.factors={s:[],w:[],o:[],t:[]};appState.weights={s:{},w:{},o:{},t:{}};appState.criteriaWeights={s:0,w:0,o:0,t:0};appState.strategies=[];appState.strategyRatings={};appState.finalResults=[];document.getElementById("industry-input").value="";document.getElementById("strengths").value="";document.getElementById("weaknesses").value="";document.getElementById("opportunities").value="";document.getElementById("threats").value="";const toStep3Btn=document.getElementById("toStep3");toStep3Btn.disabled=true;toStep3Btn.classList.remove("animate-pulse");document.getElementById("weights-results-container").classList.add("hidden");document.getElementById("weights-table-body").innerHTML="";document.getElementById("startAIAnalysisBtn").style.display="inline-flex";document.getElementById("instruction-step2").style.display="block";document.getElementById("ai-loading-message").classList.add("hidden");document.getElementById("ai-analysis-complete-message").classList.add("hidden");const toStep4Btn=document.getElementById("toStep4");toStep4Btn.disabled=true;toStep4Btn.classList.remove("animate-pulse");document.getElementById("strategy-results-container").classList.add("hidden");document.getElementById("strategy-results-container").innerHTML="";document.getElementById("startAIStrategyBtn").style.display="inline-flex";document.getElementById("instruction-step3").style.display="block";document.getElementById("ai-strategy-loading-message").classList.add("hidden");document.getElementById("ai-strategy-complete-message").classList.add("hidden");document.getElementById("final-results-table-body").innerHTML=""}
+        function resetStepUI(stepNumber){if(stepNumber===2){document.getElementById("ai-analysis-complete-message").classList.add("hidden");document.getElementById("toStep3").classList.remove("animate-pulse");document.getElementById("startAIAnalysisBtn").style.display="inline-flex";document.getElementById("instruction-step2").style.display="block"}
+        if(stepNumber===3){document.getElementById("ai-strategy-complete-message").classList.add("hidden");document.getElementById("toStep4").classList.remove("animate-pulse");document.getElementById("startAIStrategyBtn").style.display="inline-flex";document.getElementById("instruction-step3").style.display="block"}}
+        document.getElementById("getAIFactorsBtn").addEventListener("click",handleAIFactorGeneration);document.getElementById("toStep2").addEventListener("click",()=>{if(parseSWOTInputs()){resetStepUI(3);navigateTo(2)}});document.getElementById("backToStep1").addEventListener("click",()=>{resetStepUI(2);navigateTo(1)});document.getElementById("startAIAnalysisBtn").addEventListener("click",async()=>{const btn=document.getElementById("startAIAnalysisBtn");const loadingMsg=document.getElementById("ai-loading-message");const completeMsg=document.getElementById("ai-analysis-complete-message");btn.style.display="none";document.getElementById("instruction-step2").style.display="none";loadingMsg.classList.remove("hidden");loadingMsg.classList.add("inline-flex");try{const success=await runAIWeightingAnalysis();if(success){displayWeightsResults();const nextBtn=document.getElementById("toStep3");nextBtn.disabled=false;nextBtn.classList.add("animate-pulse");completeMsg.classList.remove("hidden")}}catch(error){alert(`Terjadi kesalahan pada Langkah 2: ${error.message}`);btn.style.display="inline-flex";document.getElementById("instruction-step2").style.display="block"}finally{loadingMsg.classList.add("hidden");loadingMsg.classList.remove("inline-flex")}});document.getElementById("toStep3").addEventListener("click",()=>{resetStepUI(2);navigateTo(3)});document.getElementById("backToStep2").addEventListener("click",()=>{resetStepUI(3);navigateTo(2)});document.getElementById("startAIStrategyBtn").addEventListener("click",async()=>{const btn=document.getElementById("startAIStrategyBtn");const loadingMsg=document.getElementById("ai-strategy-loading-message");const completeMsg=document.getElementById("ai-strategy-complete-message");btn.style.display="none";document.getElementById("instruction-step3").style.display="none";loadingMsg.classList.remove("hidden");loadingMsg.classList.add("inline-flex");const success=await runAIStrategyAnalysis();if(success){displayAIStrategyResults();const nextBtn=document.getElementById("toStep4");nextBtn.disabled=false;nextBtn.classList.add("animate-pulse");completeMsg.classList.remove("hidden")}else{btn.style.display="inline-flex";document.getElementById("instruction-step3").style.display="block"}
+        loadingMsg.classList.add("hidden");loadingMsg.classList.remove("inline-flex")});document.getElementById("toStep4").addEventListener("click",async()=>{if(appState.strategies.length===0){alert("Analisis AI belum dijalankan.");return}
+        resetStepUI(3);const finalTableBody=document.getElementById("final-results-table-body");finalTableBody.innerHTML='<tr><td colspan="3" class="text-center p-8"><div class="flex justify-center items-center gap-3"><div class="spinner"></div><span>AI sedang menyusun rekomendasi akhir...</span></div></td></tr>';navigateTo(4);calculateFinalScores();await displayFinalResults()});document.getElementById("startOver").addEventListener("click",()=>{if(window.confirm("Apakah Anda yakin ingin memulai analisis baru? Semua data akan dihapus.")){resetApplicationState();navigateTo(1)}});navigateTo(1)});
 </script>
 </body>
 </html>
