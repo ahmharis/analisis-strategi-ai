@@ -1,1 +1,0 @@
-# analisis-strategi-ai
